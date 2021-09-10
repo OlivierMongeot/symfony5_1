@@ -1,0 +1,20 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	{{name }}
+{% endblock %}
+
+{% block body %}
+	<h1>Hello
+		{{ name }}
+		!! :zzz:
+	</h1>
+
+	<h2>
+		Nos Formateurs
+	</h2>
+
+	{% include "_formateur.html.twig" with {"formateur":formateur1} %}
+	{% include "_formateur.html.twig" with {"formateur":formateur2} %}
+
+{% endblock %}

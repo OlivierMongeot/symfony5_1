@@ -1,0 +1,29 @@
+{% extends 'bootstrap_4_layout.html.twig' %}
+{# marche po #}
+{# {% block form_errors %}
+{% if errors|length > 0 %}
+
+{% for error in errors %}
+
+{{ 'ERREUR'|TRANS({},'VALIDATORS') }}
+
+{{ error.message }}
+
+{% endfor %}
+{% else %}
+{# ... displays the errors for a single field #}
+{# {% endif %}
+{% endblock form_errors %} #} 
+
+{# override the blocks you want ... or add some, this is the original #}
+{%- block form_errors -%}
+    {%- if errors|length > 0 -%}
+        <span class="{% if form is not rootform %}invalid-feedback{% else %}alert alert-danger{% endif %} d-block">
+            {%- for error in errors -%}
+                <span class="d-block">
+                    <span style='color:red;' class="form-error-icon badge badge-danger text-uppercase">{{ 'Error'|trans({}, 'validators') }}</span> <span class="form-error-message">{{ error.message }}</span>
+                </span>
+            {%- endfor -%}
+        </span>
+    {%- endif %}
+{%- endblock form_errors %}

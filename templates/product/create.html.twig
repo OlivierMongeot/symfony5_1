@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Nouveau produit
+{% endblock %}
+
+{% block body %}
+	<h1>Nouveau produit</h1>
+
+	{# {{ form(formView) }} #}
+	{{ form_start(formView) }}
+	{{ form_errors(formView) }}
+
+
+	<div class="row">
+		<div class="col-md-6">
+			{{ form_row(formView.name, {'attr': {'placeholder': 'Entrez le nom de l\'article'}}) }}
+			{{ form_row(formView.price)}}
+            {{ form_row(formView.mainPicture, {'attr': {'placeholder': 'Entrez l\'URL de l\'image'}})}}
+		</div>
+		<div class="col-md-6">
+
+			{{ form_row(formView.shortDecription)}}
+			{{ form_row(formView.category)}}
+
+			<button typr="submit" class="btn btn-success mt-3">
+				<i class="fas fa-save"></i>
+				Créer le produit
+			</button>
+		</div>
+	</div>
+
+	{{ form_end(formView) }}
+
+{% endblock %}
+

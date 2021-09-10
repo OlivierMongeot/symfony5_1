@@ -1,0 +1,49 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Accueil
+{% endblock %}
+
+{% block body %}
+
+	<h1>Nos Produits Phares</h1>
+	<div class="row">
+		{% for product in products %}
+
+			<div class="col">
+				<div class="card">
+
+					<img src="{{product.mainPicture}}" alt="Phare 1" class="img-fluid">
+
+					<div class="card-body">
+						<h4 class="card-title">{{ product.name}}</h4>
+						<div class="badge bg-info">
+							{{ product.category.name()}}
+						</div>
+						<p class="card-text">{{ product.shortDecription }}
+							<strong>Prix :</strong>
+
+							{{ product.price / 100 }}
+							&euro;</p>
+						<a href="#" class="btn btn-warning">Acheter</a>
+						<a href="{{ path('product_show', {'category_slug': product.category.slug, 'slug': product.slug }) }}"
+                         class="btn btn-primary">Détails</a>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+
+	<hr><h2>Un service au top !!</h2>
+
+	<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa accusamus numquam sed molestiae provident recusandae officia. Natus itaque ullam, doloribus quis, voluptas nihil tempora unde expedita adipisci, ipsam illum aliquam.</p>
+
+
+	<div class="row">
+		{% include "shared/_assurance.html.twig" with {"color_bg":"success", "icone":"fas fa-truck", "text":"Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa accusamus numquam sed molestiae provident recusandae officia. Natus itaque ullam, doloribus quis, voluptas nihil tempora unde expedita adipisci, ipsam illum aliquam" } %}
+		{% include "shared/_assurance.html.twig" with {"color_bg":"warning", "icone":"fas fa-arrow-alt-circle-down", "text":"Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa accusamus numquam sed molestiae provident recusandae officia. Natus itaque ullam, doloribus quis, voluptas nihil tempora unde expedita adipisci, ipsam illum aliquam" } %}
+		{% include "shared/_assurance.html.twig" with {"color_bg":"primary", "icone":"fas fa-lock", "text":"Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa accusamus numquam sed molestiae provident recusandae officia. Natus itaque ullam, doloribus quis, voluptas nihil tempora unde expedita adipisci, ipsam illum aliquam" } %}
+
+
+	</div>
+{% endblock %}
