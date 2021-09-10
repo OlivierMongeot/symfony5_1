@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Entity\Product;
 use Liior\Faker\Prices;
 use App\Entity\Category;
+use App\Entity\Purchase;
 use Bluemmb\Faker\PicsumPhotosProvider;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -19,7 +20,7 @@ class AppFixtures extends Fixture
     protected $slugger;
     protected $encoder;
 
-    public function __construct(SluggerInterface $slugger, UserPasswordEncoderInterface $encoder )
+    public function __construct(SluggerInterface $slugger, UserPasswordEncoderInterface $encoder)
     {
         $this->slugger = $slugger;
         $this->encoder = $encoder;
@@ -34,25 +35,23 @@ class AppFixtures extends Fixture
         $faker->addProvider(new Product($faker));
         $faker->addProvider(new PicsumPhotosProvider($faker));
 
-     
-        for( $u = 0; $u < 5; $u++ ){
+        $users = [];
+        for ($u = 0; $u < 5; $u++) {
             $user = new User();
             // $user->setPassword("password");
             $hash = $this->encoder->encodePassword($user, "password");
             $user->setPassword($hash);
             $user->setFullName($faker->name);
             $user->setEmail("user$u@gmail.com");
-          
             $manager->persist($user);
+            $users[] = $user;
         }
 
         $admin = new User();
-        
         $hash = $this->encoder->encodePassword($admin, "password");
-
         $admin->setFullName("Admin");
         $admin->setEmail("admin@gmail.com");
-        $admin->setPassword("password");
+        $admin->setPassword($hash);
         $admin->setRoles(["ROLE_ADMIN"]);
         $manager->persist($admin);
 
@@ -75,11 +74,26 @@ class AppFixtures extends Fixture
                     ->setCategory($category)
                     ->setShortDecription($faker->text())
                     ->setMainPicture($faker->imageUrl(300, 300, true));
-                    
+
                 $manager->persist($product);
             }
         }
 
+
+        for($p = 0; $p < 10; $p++){
+            $purchase = new Purchase();
+            $purchase->setFullName($faker->name);
+            $purchase->setAddress($faker->streetAddress);
+            $purchase->setPostalCode($faker->postcode);
+            $purchase->setCity($faker->city);
+            if($faker->boolean(80)){
+                $purchase->setStatus(Purchase::STATUS_PAID);
+            }  
+            $purchase->setUser($faker->randomElement($users));    
+            $purchase->setTotal(mt_rand(4000, 20000));       
+            
+            $manager->persist($purchase);
+        }
         $manager->flush();
     }
 }
