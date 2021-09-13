@@ -20,7 +20,9 @@ final class Version20210913203138 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE purchase ADD purchased_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\'');
+        $this->addSql('ALTER TABLE purchase ADD purchased_at DATETIME COMMENT \'(DC2Type:datetime_immutable)\'');
+        $this->addSql('UPDATE purchase SET purchased_at = NOW()');
+        $this->addSql('ALTER TABLE purchase MODIFY purchased_at DATETIME NOT NULL');
     }
 
     public function down(Schema $schema): void

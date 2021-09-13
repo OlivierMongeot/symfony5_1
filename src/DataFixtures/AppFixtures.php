@@ -90,7 +90,8 @@ class AppFixtures extends Fixture
                 $purchase->setStatus(Purchase::STATUS_PAID);
             }  
             $purchase->setUser($faker->randomElement($users));    
-            $purchase->setTotal(mt_rand(4000, 20000));       
+            $purchase->setTotal(mt_rand(4000, 20000));  
+            // $purchase->setPurchasedAt($faker->dateTimeBetween('-1 years', 'now'));
             
             $manager->persist($purchase);
         }
