@@ -1,0 +1,35 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Mes commandes
+{% endblock %}        
+
+{% block body %}
+    <h1> Mes commandes </h1>
+    
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Numéro </th>
+                <th>Adresse</th>
+                <th>Date de commande</th>
+                <th> Prix total</th>
+                <th> Statut</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for p in purchases %}
+            <tr>
+                <td>{{ p.id }}</td>
+                <td>{{ p.address }}<br>{{ p.postalCode }} {{ p.city }}</td>
+                <td> Todo </td>
+                <td>{{ p.total }}</td>
+                <td>{{ p.status }}</td>
+            </tr>
+
+        {% endfor %}
+        </tbody>    
+
+    </table>
+{% endblock %}
+
