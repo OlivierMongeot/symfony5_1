@@ -57,6 +57,10 @@ class AppFixtures extends Fixture
 
 
 
+        $products = [];
+
+
+
         for ($i = 0; $i < 3; $i++) {
 
             $category = new Category();
@@ -75,6 +79,8 @@ class AppFixtures extends Fixture
                     ->setShortDecription($faker->text())
                     ->setMainPicture($faker->imageUrl(300, 300, true));
 
+                $products[] = $product;
+                
                 $manager->persist($product);
             }
         }
@@ -91,7 +97,14 @@ class AppFixtures extends Fixture
             }  
             $purchase->setUser($faker->randomElement($users));    
             $purchase->setTotal(mt_rand(4000, 20000));  
-            // $purchase->setPurchasedAt($faker->dateTimeBetween('-1 years', 'now'));
+            $purchase->setPurchasedAt($faker->dateTimeBetween('-6 months'));
+
+            $selectedProducts = $faker->randomElements($products, mt_rand(1, 3 ));
+
+            foreach($selectedProducts as $product){
+                $purchase->addProduct($product);
+            }
+
             
             $manager->persist($purchase);
         }

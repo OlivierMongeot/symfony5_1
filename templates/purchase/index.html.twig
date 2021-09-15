@@ -13,6 +13,7 @@
                 <th>Numéro </th>
                 <th>Adresse</th>
                 <th>Date de commande</th>
+                <th>Produits</th>
                 <th> Prix total</th>
                 <th> Statut</th>
             </tr>
@@ -23,7 +24,12 @@
                 <td>{{ p.id }}</td>
                 <td>{{ p.address }}<br>{{ p.postalCode }} {{ p.city }}</td>
                 <td> {{ p.purchasedAt | date('d-m-Y à H:i') }} </td>
-                <td>{{ p.total }}</td>
+                <td>   {% for p in p.products %}    
+                           <li> {{ p.name }}
+                       ({{ p.price }} €) </li>    
+                        {% endfor %}
+                </td>
+              <td>{{ p.total }}</td>
                 <td>{{ p.status }}</td>
             </tr>
 
