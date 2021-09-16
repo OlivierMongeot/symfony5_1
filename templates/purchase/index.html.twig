@@ -24,9 +24,9 @@
                 <td>{{ p.id }}</td>
                 <td>{{ p.address }}<br>{{ p.postalCode }} {{ p.city }}</td>
                 <td> {{ p.purchasedAt | date('d-m-Y à H:i') }} </td>
-                <td>   {% for p in p.products %}    
-                           <li> {{ p.name }}
-                       ({{ p.price }} €) </li>    
+                <td>   {% for item in p.purchaseItems %}    
+                           <li>{{ item.quantity }} X {{ item.productName }}
+                       ({{ item.total }} €) </li>    
                         {% endfor %}
                 </td>
               <td>{{ p.total }}</td>

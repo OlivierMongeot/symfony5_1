@@ -8,6 +8,7 @@ use App\Entity\Product;
 use Liior\Faker\Prices;
 use App\Entity\Category;
 use App\Entity\Purchase;
+use App\Entity\PurchaseItem;
 use Bluemmb\Faker\PicsumPhotosProvider;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -102,7 +103,19 @@ class AppFixtures extends Fixture
             $selectedProducts = $faker->randomElements($products, mt_rand(1, 3 ));
 
             foreach($selectedProducts as $product){
-                $purchase->addProduct($product);
+                // $purchase->addProduct($product);
+                $purchaseItem = new PurchaseItem();
+                $purchaseItem->setProduct($product);
+                $purchaseItem->setProductName($product->getName());
+                // $purchaseItem->setPurchase($purchase);
+                $purchaseItem->setQuantity(mt_rand(1, 3));
+
+                $purchaseItem->setProductPrice($product->getPrice());
+                $purchaseItem->setTotal($product->getPrice() * $purchaseItem->getQuantity());
+                // $purchase->addProduct($purchaseItem);
+                $purchaseItem->setPurchase($purchase);
+
+                $manager->persist($purchaseItem);
             }
 
             
