@@ -37,7 +37,7 @@
 
 							{{ product.price / 100 }}
 							&euro;</p>
-						<a href="#" class="btn btn-warning">Acheter</a>
+						<a href="{{ path('cart_add', {'id': product.id})  }}" class="btn btn-warning">Acheter</a>
 						<a href="{{ path('product_show', {'category_slug': product.category.slug, 'slug': product.slug }) }}" class="btn btn-primary">Détails</a>
 					</div>
 				</div>

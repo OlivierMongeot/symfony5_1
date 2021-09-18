@@ -17,6 +17,10 @@ class CartService
         $this->productRepository =  $productRepository;
     }
 
+    public function emptyCart(){
+        $this->session->set('cart', []);
+    }
+
     public function add(int $id)
     {
         $cart = $this->session->get('cart', []);
@@ -37,6 +41,9 @@ class CartService
         $this->session->set('cart', $cart);
     }
 
+    /**
+    * @return CartItem[]
+    */
     public function getDetailCartItems()
     {
 

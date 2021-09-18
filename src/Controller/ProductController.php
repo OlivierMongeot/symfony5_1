@@ -11,13 +11,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
+
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Validator\Constraints\Collection;
 
-use Symfony\Component\Validator\Constraints\GreaterThan;
-use Symfony\Component\Validator\Constraints\LessThanOrEqual;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -44,7 +41,7 @@ class ProductController extends AbstractController
 
 
     /**
-     * @Route("/{category_slug}/{slug}", name="product_show")
+     * @Route("/{category_slug}/{slug}", name="product_show" , priority=-1)
      * @param $slug
      * @param $id
      * @return Response
@@ -70,18 +67,11 @@ class ProductController extends AbstractController
      **/
     public function edit( $id, ProductRepository $productRepository, Request $request, EntityManagerInterface $em, ValidatorInterface $validator ): Response {
 
-        // $product = new Product();
-        // // $product->setName('Nom du produit');
-        // // $product->setPrice(55);
-        // $res = $validator->validate($product, null, ['Default','with-price']);
-        // // if ($res->count() > 0) {
-        //     dd($res);
-        // }
 
         $product = $productRepository->find($id);
 
         if($product === null){
-            throw new NotFoundHttpException('Ce produit n\'existe pas');
+            throw new NotFoundHttpException('Ce produit n\'existe pas pour édition');
         }
 
         $form = $this->createForm(ProductType::class, $product);

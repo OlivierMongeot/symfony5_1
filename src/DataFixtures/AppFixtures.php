@@ -97,10 +97,11 @@ class AppFixtures extends Fixture
                 $purchase->setStatus(Purchase::STATUS_PAID);
             }  
             $purchase->setUser($faker->randomElement($users));    
-            $purchase->setTotal(mt_rand(4000, 20000));  
+            // $purchase->setTotal(mt_rand(4000, 20000));  
             $purchase->setPurchasedAt($faker->dateTimeBetween('-6 months'));
 
             $selectedProducts = $faker->randomElements($products, mt_rand(1, 3 ));
+            $totalItems = 0;
 
             foreach($selectedProducts as $product){
                 // $purchase->addProduct($product);
@@ -108,17 +109,21 @@ class AppFixtures extends Fixture
                 $purchaseItem->setProduct($product);
                 $purchaseItem->setProductName($product->getName());
                 // $purchaseItem->setPurchase($purchase);
-                $purchaseItem->setQuantity(mt_rand(1, 3));
+                $purchaseItem->setQuantity(mt_rand(1, 5));
 
                 $purchaseItem->setProductPrice($product->getPrice());
-                $purchaseItem->setTotal($product->getPrice() * $purchaseItem->getQuantity());
+
+                $purchaseItem->setTotal($purchaseItem->getProductPrice()  * $purchaseItem->getQuantity());
+
                 // $purchase->addProduct($purchaseItem);
                 $purchaseItem->setPurchase($purchase);
+
+                $totalItems += $purchaseItem->getTotal();
 
                 $manager->persist($purchaseItem);
             }
 
-            
+            $purchase->setTotal($totalItems);
             $manager->persist($purchase);
         }
         $manager->flush();

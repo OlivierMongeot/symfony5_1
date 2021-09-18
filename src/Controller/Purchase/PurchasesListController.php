@@ -16,16 +16,6 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 class PurchasesListController extends AbstractController
 {
 
-    // private $security;
-    // private $router;
-    // private $twig;
-
-    // public function __construct(Security $security, RouterInterface $router, Environment $twig)
-    // {
-    //     $this->security = $security;
-    //     $this->router = $router;
-    //     $this->twig = $twig;
-    // }
 
     /**
      * @Route("/purchases", name="purchases_index")
@@ -36,15 +26,7 @@ class PurchasesListController extends AbstractController
 
         /** @var User */
          $user = $this->getUser();
-        // if (!$user) {
-        //     throw new AccessDeniedException('You are not logged in');
-        // }
 
-        
-        // $html = $this->twig->render('purchase/index.html.twig', [
-        //     'purchases' => $user->getPurchases(),
-        // ]);
-        // return new Response($html);
         return $this->render('purchase/index.html.twig', [
             'purchases' => $user->getPurchases()
         ]);

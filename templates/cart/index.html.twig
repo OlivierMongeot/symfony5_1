@@ -15,6 +15,8 @@
 
 	<h1>Votre panier</h1>
 
+    {% if items %}
+
 	<table class="table">
 		<thead>
 			<tr>
@@ -22,7 +24,7 @@
 				<th>Prix</th>
 				<th>Quantité</th>
 				<th>Total</th>
-                <th></th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -32,17 +34,19 @@
 					<td>{{ item.product.price }}
 						€</td>
 					<td>
-                          
-                        <a class="btn-sm btn-success" href="{{ path('cart_increment', {'id': item.product.id}) }}">
-                        <i class="fas fa-plus"></i></a>
-                            {{ item.quantity}}
-                        <a class="btn-sm btn-warning" href="{{ path('cart_decrement', {'id': item.product.id}) }}">
-                        <i class="fas fa-minus"></i></a>
-                    </td>
+
+						<a class="btn-sm btn-success" href="{{ path('cart_increment', {'id': item.product.id}) }}">
+						<i class="fas fa-plus"></i></a>
+						{{ item.quantity}}
+						<a class="btn-sm btn-warning" href="{{ path('cart_decrement', {'id': item.product.id}) }}">
+							<i class="fas fa-minus"></i>
+						</a>
+					</td>
 					<td>{{ item.total }}€</td>
 					<td>
 						<a class="btn-sm btn-danger" href="{{ path('cart_delete', {'id': item.product.id}) }}">
-                        <i class="fas fa-trash"></i></a>
+							<i class="fas fa-trash"></i>
+						</a>
 					</td>
 				</tr>
 			{% endfor %}
@@ -56,5 +60,23 @@
 		</tfoot>
 	</table>
 
+    {% if app.user %}
+
+    <hr>
+    <h2>Confirmer votre commande</h2>
+
+	{{ form_start(formConfirm, { 'action': path('purchase_confirm')  }) }}
+	{{ form_widget(formConfirm) }}
+	<button type="submit" class="btn btn-success mt-2">Commander</button>
+	{{ form_end(formConfirm) }}
+    {% else %}
+       <h2>Vous devez vous connecter pour acheter</h2>
+       <a href="{{ path('security_login') }}" class="btn btn-success">Se connecter</a> ou <a href="{{ path('security_login') }}" class="btn btn-info">Créer un compte</a>
+     {% endif %}
+
+
+{% else %}
+    <p>Votre panier est vide.</p>
+{% endif %}
 
 {% endblock %}
