@@ -6,6 +6,7 @@ use App\Entity\Purchase;
 use App\Cart\CartService;
 use App\Entity\PurchaseItem;
 use App\Form\CartConfirmationType;
+use App\Purchase\PurchasePersister;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,13 +19,15 @@ class PurchaseConfirmationController extends AbstractController
     // protected $security;
     protected $cartService;
     protected $entityManager;
+    protected $purchasePersister;
 
 
-    public function __construct( CartService $cartService,EntityManagerInterface $entityManager
+    public function __construct( CartService $cartService,EntityManagerInterface $entityManager, PurchasePersister $purchasePersister 
     ) {
 
         $this->cartService = $cartService;
         $this->entityManager = $entityManager;
+        $this->purchasePersister = $purchasePersister;
     }
 
 
@@ -35,8 +38,6 @@ class PurchaseConfirmationController extends AbstractController
     public function confirm(Request $request)
     {
 
-
-        // $form = $this->formFactory->create(CartConfirmationType::class);
         $form = $this->createForm(CartConfirmationType::class);
         $form->handleRequest($request);
 
@@ -46,8 +47,7 @@ class PurchaseConfirmationController extends AbstractController
             return $this->redirectToRoute('cart_show');
         }
 
-        $user = $this->getUser();
-
+       
         $cartItems = $this->cartService->getDetailCartItems();
 
         if (count($cartItems) == 0) {
@@ -59,39 +59,9 @@ class PurchaseConfirmationController extends AbstractController
 
         /** @var Purchase */
         $purchase = $form->getData();
-        $purchase
-            ->setUser($user)
-            ->setPurchasedAt(new \DateTime());
-
-        $total = $this->cartService->getTotal();
-        $purchase->setTotal($total);
-
-        $this->entityManager->persist($purchase);
-
-        foreach ($cartItems as $cartItem) {
-            $purchaseItem = new PurchaseItem();
-            $purchaseItem
-                ->setPurchase($purchase)
-                ->setProduct($cartItem->product)
-                ->setProductName($cartItem->product->getName())
-                ->setQuantity($cartItem->quantity)
-                ->setProductPrice($cartItem->product->getPrice())
-                ->setTotal($cartItem->getTotal());
-
-            $this->entityManager->persist($purchaseItem);
-          
-        }
-
-       
-
-
-        $this->entityManager->flush();
-
-        $this->cartService->emptyCart();
-
-        // $flashBag->add('success', 'Your order has been confirmed');
-        $this->addFlash('success', 'Your order has been confirmed');
-        return $this->redirectToRoute('purchases_index');
-        // return new RedirectResponse($this->router->generate('purchases_index', ['id' => $purchase->getId()]));
+        $this->purchasePersister->save($purchase);
+        // $this->addFlash('success', 'Your order has been confirmed');
+        // return $this->redirectToRoute('purchases_index');
+        return $this->redirectToRoute('purchase_payment', ['id' => $purchase->getId()]);
     }
 }
