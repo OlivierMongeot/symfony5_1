@@ -5,9 +5,21 @@
 {% endblock %}
 
 {% block body %}
+
+ {% for rubrique, messages in app.flashes %}
+		<div class="alert alert-{{ rubrique }}">
+			{% for message in messages %}
+				<div>{{ message }}</div>
+			{% endfor %}
+		</div>
+	{% endfor %}
+
+
 	<h1>
 		Mes commandes
 	</h1>
+
+   
 
 	<table class="table table-striped">
 		<thead>

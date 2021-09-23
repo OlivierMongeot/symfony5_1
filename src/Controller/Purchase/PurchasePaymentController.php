@@ -31,7 +31,8 @@ class PurchasePaymentController extends AbstractController
 
         return $this->render('purchase/payment.html.twig', [
             'client_secret' => $paymentIntent->client_secret,
-            'purchase' => $purchase
+            'purchase' => $purchase,
+            'publicKey' => $stripeService->getPublicKey()
         ]);
     }
 }

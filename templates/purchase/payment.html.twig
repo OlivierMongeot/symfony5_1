@@ -15,72 +15,20 @@
 		</button>
 		<p id="card-error" role="alert"></p>
 		{# <p class="result-message hidden">
-						        Payment succeeded, see the result in your
-						        <a href="" target="_blank">Stripe dashboard.</a> Refresh the page to pay again.
-						      </p> #}
+								        Payment succeeded, see the result in your
+								        <a href="" target="_blank">Stripe dashboard.</a> Refresh the page to pay again.
+								      </p> #}
 	</form>
 
 {% endblock %}
 
 {% block javascripts %}
-{{ parent() }}
-<script src="https://js.stripe.com/v3/"></script>
-<script>
-console.log("Payment page loaded");
-	const stripe = Stripe("pk_test_51Jb57fJuOh5UEeBSrtTU7zIvFwIxEY8Bz0ItjbYS8ciefHGE403D69ModEcf1dkF979pd2XsNWDWv77lVmyZZ0Jj008C67hHBi");
-			
-			const elements = stripe.elements();
-            const clientSecret = "{{ client_secret }}";
-
-             var style = {
-                            base: {
-                                color: "#32325d",
-                                fontFamily: 'Arial, sans-serif',
-                                fontSmoothing: "antialiased",
-                                fontSize: "16px",
-                                "::placeholder": {
-                                color: "#32325d"
-                                }
-                            },
-                            invalid: {
-                                fontFamily: 'Arial, sans-serif',
-                                color: "#fa755a",
-                                iconColor: "#fa755a"
-                            }
-                            };
-			    
-			const card = elements.create("card", { style: style });
-			    // Stripe injects an iframe into the DOM
-			    card.mount("#card-element");
-			    card.on("change", function (event) {
-			      // Disable the Pay button if there are no card details in the Element
-			      document.querySelector("button").disabled = event.empty;
-			      document.querySelector("#card-error").textContent = event.error ? event.error.message : "";
-			    });
-			    const form = document.getElementById("payment-form");
-			    form.addEventListener("submit", function(event) {
-			      event.preventDefault();
-			      // Complete payment when the submit button is clicked
-			    //   payWithCard(stripe, card, data.clientSecret);
-                                stripe
-                        .confirmCardPayment(clientSecret, {
-                        payment_method: {
-                            card: card
-                        }
-                        })
-                        .then(function(result) {
-                        if (result.error) {
-                            // Show error to your customer
-                            // showError(result.error.message);
-                            console.log(result.error.message);
-                        } else {
-                            // The payment succeeded!
-                            // orderComplete(result.paymentIntent.id);
-                            console.log(result);
-                            window.location.href = "{{ url('purchase_payment_success', {'id':purchase.id})  }}";
-                        }
-                        });
-			    });
-</script>
-
+	{{ parent() }}
+	<script src="https://js.stripe.com/v3/"></script>
+	<script>
+		const keyPub = "{{ publicKey }}";
+	    const clientSecret = "{{ client_secret }}";
+        const redirectAfterSuccessUrl = "{{ url('purchase_payment_success', {'id':purchase.id})  }}"
+    </script>
+    <script src="/js/payment.js"></script>
 {% endblock %}

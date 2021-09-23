@@ -42,8 +42,8 @@ services:
 
     App\Stripe\StripeService:
       arguments:
-        $secretKey: 'sk_test_51Jb57fJuOh5UEeBSEgN2sR5z5aN0diRuR0t812OTJ4jadaNfHVBKy4wuTn8Ub86DpYAca9xCNczlJKkzGqfxyMC300bTnhapvQ'
-        $publicKey: 'pk_test_51Jb57fJuOh5UEeBSrtTU7zIvFwIxEY8Bz0ItjbYS8ciefHGE403D69ModEcf1dkF979pd2XsNWDWv77lVmyZZ0Jj008C67hHBi'
+        $secretKey: '%env(STRIPE_SECRET_KEY)%'
+        $publicKey: '%env(STRIPE_PUBLIC_KEY)%'
         
 
 

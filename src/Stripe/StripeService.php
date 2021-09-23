@@ -10,11 +10,14 @@ class StripeService
 {
     protected $secretKey;
     protected $publicKey;
+    
+
 
     public function __construct(string $secretKey, string $publicKey){
         $this->secretKey = $secretKey;
         $this->publicKey = $publicKey;
     }
+
 
     public function stripeInstance(Purchase $purchase){
 
@@ -25,6 +28,11 @@ class StripeService
             'currency' => 'eur'
         ]);
 
+    }
+
+    public function getPublicKey():string
+    {
+        return $this->publicKey;
     }
 
 }
