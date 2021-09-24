@@ -46,12 +46,11 @@ class ProductController extends AbstractController
      * @param $id
      * @return Response
      **/
-    public function show(string $slug, ProductRepository $productRepository): Response
+    public function show(string $slug, $prenom, ProductRepository $productRepository): Response
     {
+     
         $product = $productRepository->findOneBy(compact('slug'));
-        // $url = $urlGeneratorInterface->generate('product_category', compact('slug'));
-        // $url = $urlGeneratorInterface->generate('product_category', ['slug' => $product->getCategory()->getSlug()]);
-
+      
         if (!$product) {
             throw $this->createNotFoundException("Le produit existe pas");
         }

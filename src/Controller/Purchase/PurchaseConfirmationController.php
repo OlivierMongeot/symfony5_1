@@ -53,9 +53,7 @@ class PurchaseConfirmationController extends AbstractController
         if (count($cartItems) == 0) {
             $this->addFlash('warning', 'Your cart is empty');
             return $this->redirectToRoute('cart_show');
-    
         }
-
 
         /** @var Purchase */
         $purchase = $form->getData();
