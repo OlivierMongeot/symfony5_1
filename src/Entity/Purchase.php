@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=PurchaseRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Purchase
 {
@@ -70,6 +71,7 @@ class Purchase
 
     /**
      * @ORM\OneToMany(targetEntity=PurchaseItem::class, mappedBy="purchase", orphanRemoval=true)
+     * @var Collection PurchaseItem
      */
     private $purchaseItems;
 
@@ -78,20 +80,28 @@ class Purchase
         $this->purchaseItems = new ArrayCollection();
     }
 
-    // /**
-    //  * @ORM\ManyToMany(targetEntity=Product::class, inversedBy="purchases")
-    //  */
-    // private $products;
+
+    /**
+    * @ORM\PrePersist
+    */
+    public function prepersist(){
+            if(empty($this->purchasedAt)){
+                $this->purchasedAt = new \DateTime();
+            }
+    }    
 
 
+    /**
+    * @ORM\PreFlush
+    */
+    public function preFlush(){
+        $this->total = 0;
+        foreach($this->purchaseItems as $item){
+            $this->total += $item->getTotal();
+        }
+    }
 
-    // public function __construct()
-    // {
-    //     $this->products = new ArrayCollection();
-    // }
 
-
-    
 
     public function getId(): ?int
     {

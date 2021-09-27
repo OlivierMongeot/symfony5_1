@@ -26,11 +26,11 @@ class PurchasePersister{
         $user = $this->security->getUser();
 
         $purchase
-        ->setUser($user)
-        ->setPurchasedAt(new \DateTime());
+        ->setUser($user);
+        // ->setPurchasedAt(new \DateTime());
 
-    $total = $this->cartService->getTotal();
-    $purchase->setTotal($total);
+    // $total = $this->cartService->getTotal();
+    // $purchase->setTotal($total);
 
     $this->eM->persist($purchase);
 
@@ -43,6 +43,8 @@ class PurchasePersister{
             ->setQuantity($cartItem->quantity)
             ->setProductPrice($cartItem->product->getPrice())
             ->setTotal($cartItem->getTotal());
+
+        // $purchase->addPurchaseItem($purchaseItem);
 
         $this->eM->persist($purchaseItem);
       
