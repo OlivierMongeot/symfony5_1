@@ -27,8 +27,8 @@
 		{{ product.name }}</h1>
 
 	<h3>Prix :
-		{{ product.price / 100}}
-		€</h3>
+		{{ product.price | amount}}
+	</h3>
 
 
 	<div class="row">

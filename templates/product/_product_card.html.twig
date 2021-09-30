@@ -1,0 +1,17 @@
+<div class="card">
+	<img src="{{product.mainPicture}}" alt="{{ product.name}}" class="img-fluid">
+	<div class="card-body">
+		<h4 class="card-title">{{ product.name}}</h4>
+		<div class="badge bg-info">
+			{{ product.category.name()}}
+		</div>
+		<p class="card-text">{{ product.shortDecription }}
+			<strong>Prix :</strong>
+			{{ product.price | amount }}
+		</p>
+
+		<a href="{{ path('cart_add', {'id': product.id}) }}" class="btn btn-warning">Acheter</a>
+
+		<a href="{{ path('product_show', {'category_slug': product.category.slug, 'slug': product.slug }) }}" class="btn btn-primary">Détails</a>
+	</div>
+</div>
