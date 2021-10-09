@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Enregistrement{% endblock %}
+
+{% block body %}
+
+    <h1>Nouveau compte</h1>
+    	{{ form_start(formView) }}
+	    {{ form_errors(formView) }}
+
+            {{ form_row(formView.email, {'attr': {'placeholder': 'Entrez votre mail'}}) }}
+			{{ form_row(formView.password)}}
+            {{ form_row(formView.fullName, {'attr': {'placeholder': 'Entrez votre pseudo'}})}}
+
+            <button typr="submit" class="btn btn-success mt-3">
+				<i class="fas fa-save"></i>
+				Créer
+			</button>
+        {{ form_end(formView) }}   
+{% endblock %}
